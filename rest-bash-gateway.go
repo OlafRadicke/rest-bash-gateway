@@ -17,7 +17,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
   ressource := r.URL.Path[1:len(r.URL.Path)]
   result := "command not supported"
   if command, ok := CammandMatch[ressource]; ok {
-//    command := string(CammandMatch[ressource])
     result = rest2bash( command )
   }
   fmt.Fprintf(w, "%s", result)
@@ -35,8 +34,8 @@ func main() {
 func readConfig(){
   file, e := ioutil.ReadFile("./config.json")
   if e != nil {
-      fmt.Printf("File error: %v\n", e)
-      os.Exit(1)
+    fmt.Printf("File error: %v\n", e)
+    os.Exit(1)
   }
   json.Unmarshal(file, &CammandMatch)
 }
@@ -48,6 +47,6 @@ func rest2bash(command string) string {
   out, err := exec.Command( commandHead, params... ).Output()
   if err != nil {
     log.Fatal(err)
-    }
-      return string(out)
+  }
+  return string(out)
 }
